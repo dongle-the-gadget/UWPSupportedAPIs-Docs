@@ -39,6 +39,18 @@ Get-Content $BuildsFilePath -ReadCount 1 | ForEach-Object {
     $BuildNumber = $BuildInfo[0]
     $DownloadUrl = $BuildInfo[2]
 
+    # Check if the files <output folder>\<build number>\SupportedAPIs-[x64|x86|arm].xml files exist
+    # If it does, skip the build
+    $DestinationPath = Join-Path -Path $OutputFolder.FullName -ChildPath $BuildNumber
+    $SupportedAPIsx86 = Join-Path -Path $DestinationPath -ChildPath "SupportedAPIs-x86.xml"
+    $SupportedAPIsx64 = Join-Path -Path $DestinationPath -ChildPath "SupportedAPIs-x64.xml"
+    $SupportedAPIsarm = Join-Path -Path $DestinationPath -ChildPath "SupportedAPIs-arm.xml"
+    If ((Test-Path $SupportedAPIsx86) -and (Test-Path $SupportedAPIsx64) -and (Test-Path $SupportedAPIsarm)) {
+        Write-Host "The $BuildNumber supported APIs files already exist. Skipping."
+        Write-Host ""
+        break
+    }
+
     # Create a temporary folder in the TEMP directory
     $TempFolder = New-Item -Force -Path $env:TEMP -Name "WindowsSDK-$BuildNumber" -ItemType Directory
 
@@ -91,8 +103,6 @@ Get-Content $BuildsFilePath -ReadCount 1 | ForEach-Object {
 
     # Copy files named SupportedAPIs-[architecture].xml to <output folder>\<build number>
     Write-Host "Copying $BuildNumber supported APIs files to output folder."
-    $DestinationPath = Join-Path -Path $OutputFolder.FullName -ChildPath $BuildNumber
-    New-Item -Force $DestinationPath -ItemType Directory | Out-Null
     $SupportedApisFiles = Get-ChildItem -Path $SupportedApisPath -Filter "SupportedAPIs-*.xml" -Recurse
 
     foreach ($SupportedApisFile in $SupportedApisFiles) {
