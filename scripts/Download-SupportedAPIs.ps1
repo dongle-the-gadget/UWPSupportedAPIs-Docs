@@ -25,12 +25,12 @@ $OutputFolder = New-Item -Force $OutputFolderPath -ItemType Directory
 Get-Content $BuildsFilePath -ReadCount 1 | ForEach-Object {
     # Check if the line is empty
     if ($_.Trim() -eq "") {
-        continue
+        return
     }
 
     # Check if the line is a comment
     if ($_.StartsWith("#")) {
-        continue
+        return
     }
 
     # Retrieve information in the following format from the line:
