@@ -25,12 +25,12 @@ $OutputFolder = New-Item -Force $OutputFolderPath -ItemType Directory
 Get-Content $BuildsFilePath -ReadCount 1 | ForEach-Object {
     # Check if the line is empty
     if ($_.Trim() -eq "") {
-        return
+        continue
     }
 
     # Check if the line is a comment
     if ($_.StartsWith("#")) {
-        return
+        continue
     }
 
     # Retrieve information in the following format from the line:
@@ -48,7 +48,7 @@ Get-Content $BuildsFilePath -ReadCount 1 | ForEach-Object {
     If ((Test-Path $SupportedAPIsx86) -and (Test-Path $SupportedAPIsx64) -and (Test-Path $SupportedAPIsarm)) {
         Write-Host "The $BuildNumber supported APIs files already exist. Skipping."
         Write-Host ""
-        break
+        continue
     }
 
     # Create a temporary folder in the TEMP directory
