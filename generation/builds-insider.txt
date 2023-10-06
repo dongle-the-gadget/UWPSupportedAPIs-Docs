@@ -1,0 +1,11 @@
+# This file defines the SDK builds that are available for download.
+
+# To not retrieve the supported APIs list for a specific build,
+# remove its line from this file.
+
+# If you wish to add a build to this file,
+# add a new line that follows this format:
+# <build number> : <retail/insider> : <download information>
+
+# For retail builds, the download information must be
+# the URL of the EXE installer, not the ISO image.

@@ -1,0 +1,31 @@
+name: Scrape SDK
+
+on:
+  push:
+    matrix:
+      branch:
+        - stable
+        - insider
+
+jobs:
+  scrape-sdk:
+    runs-on: windows-2022
+    strategy:
+      matrix:
+        branch:
+          - stable
+          - insider
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Scrape the SDKs
+        runs: .\scripts\Download-SupportedAPIs.ps1 generation/builds-${{ matrix.branch }}.txt output
+      
+      - name: Commit and push changes
+        uses: EndBug/add-and-commit@v9
+        with:
+          default_author: github_actor
+          message: Update scraped SDK code
+          add: output
+          push: true
