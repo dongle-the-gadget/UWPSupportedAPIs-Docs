@@ -20,7 +20,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Scrape the SDKs
-        runs: .\scripts\Download-SupportedAPIs.ps1 generation/builds-${{ matrix.branch }}.txt output
+        run: .\scripts\Download-SupportedAPIs.ps1 generation/builds-${{ matrix.branch }}.txt output
       
       - name: Commit and push changes
         uses: EndBug/add-and-commit@v9
