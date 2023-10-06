@@ -48,7 +48,7 @@ Get-Content $BuildsFilePath -ReadCount 1 | ForEach-Object {
     If ((Test-Path $SupportedAPIsx86 -PathType Leaf) -and (Test-Path $SupportedAPIsx64 -PathType Leaf) -and (Test-Path $SupportedAPIsarm -PathType Leaf)) {
         Write-Host "The $BuildNumber supported APIs files already exist. Skipping."
         Write-Host ""
-        continue
+        return
     }
 
     # Create a temporary folder in the TEMP directory
