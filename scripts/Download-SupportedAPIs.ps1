@@ -103,11 +103,11 @@ Get-Content $BuildsFilePath -ReadCount 1 | ForEach-Object {
 
     # Copy files named SupportedAPIs-[architecture].xml to <output folder>\<build number>
     Write-Host "Copying $BuildNumber supported APIs files to output folder."
-    New-Item $SupportedApisPath -ItemType Directory -Force | Out-Null
+    New-Item -Force -Path $DestinationPath -ItemType Directory | Out-Null
     $SupportedApisFiles = Get-ChildItem -Path $SupportedApisPath -Filter "SupportedAPIs-*.xml" -Recurse
 
     foreach ($SupportedApisFile in $SupportedApisFiles) {
-        Copy-Item -Path $SupportedApisFile.FullName -Destination $DestinationPath -Force | Out-Null
+        Copy-Item -Path $SupportedApisFile.FullName -Destination (Join-Path -Path $DestinationPath -ChildPath $SupportedApisFile.Name) -Force | Out-Null
     }
 
     # Clean up the temporary folder
