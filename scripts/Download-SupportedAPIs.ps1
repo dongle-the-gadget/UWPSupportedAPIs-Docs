@@ -1,6 +1,6 @@
 param (
     [Parameter(Mandatory=$true)]
-    [ValidateScript({Test-Path $_}, ErrorMessage="The builds file path must exist.")]
+    [ValidateScript({Test-Path $_ -PathType Leaf}, ErrorMessage="The builds file path must exist.")]
     [string]
     $BuildsFilePath,
 
@@ -45,7 +45,7 @@ Get-Content $BuildsFilePath -ReadCount 1 | ForEach-Object {
     $SupportedAPIsx86 = Join-Path -Path $DestinationPath -ChildPath "SupportedAPIs-x86.xml"
     $SupportedAPIsx64 = Join-Path -Path $DestinationPath -ChildPath "SupportedAPIs-x64.xml"
     $SupportedAPIsarm = Join-Path -Path $DestinationPath -ChildPath "SupportedAPIs-arm.xml"
-    If ((Test-Path $SupportedAPIsx86) -and (Test-Path $SupportedAPIsx64) -and (Test-Path $SupportedAPIsarm)) {
+    If ((Test-Path $SupportedAPIsx86 -PathType Leaf) -and (Test-Path $SupportedAPIsx64 -PathType Leaf) -and (Test-Path $SupportedAPIsarm -PathType Leaf)) {
         Write-Host "The $BuildNumber supported APIs files already exist. Skipping."
         Write-Host ""
         continue
@@ -103,6 +103,7 @@ Get-Content $BuildsFilePath -ReadCount 1 | ForEach-Object {
 
     # Copy files named SupportedAPIs-[architecture].xml to <output folder>\<build number>
     Write-Host "Copying $BuildNumber supported APIs files to output folder."
+    New-Item $SupportedApisPath -ItemType Directory -Force | Out-Null
     $SupportedApisFiles = Get-ChildItem -Path $SupportedApisPath -Filter "SupportedAPIs-*.xml" -Recurse
 
     foreach ($SupportedApisFile in $SupportedApisFiles) {

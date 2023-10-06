@@ -1,4 +1,4 @@
-name: Scrape SDK
+name: Build
 
 on:
   push:
@@ -25,7 +25,14 @@ jobs:
       - name: Commit and push changes
         uses: EndBug/add-and-commit@v9
         with:
-          default_author: github_actor
+          default_author: github_actions
           message: Update scraped SDK code
           add: output
           push: true
+
+      # Upload artifacts
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: SupportedAPIs-${{ matrix.branch }}
+          path: output
