@@ -2,10 +2,15 @@ name: Build
 
 on:
   push:
-    matrix:
-      branch:
-        - stable
-        - insider
+    paths:
+      - "generation/builds-*.txt"
+      - "scripts/Download-SupportedAPIs.ps1"
+      - ".github/workflows/build.yml"
+  pull_request:
+    paths:
+      - "generation/builds-*.txt"
+      - "scripts/Download-SupportedAPIs.ps1"
+      - ".github/workflows/build.yml"
 
 jobs:
   scrape-sdk:
