@@ -26,6 +26,9 @@ jobs:
 
       - name: Scrape the SDKs
         run: .\scripts\Download-SupportedAPIs.ps1 generation/builds-${{ matrix.branch }}.txt output
+      
+      - name: Consolidate the SDK versions
+        run: .\scripts\Consolidate-Versions.ps1 generation/builds-${{ matrix.branch }}.txt output/versions-${{ matrix.branch }}.txt
 
       - name: Check if files have changed
         uses: tj-actions/verify-changed-files@v16
