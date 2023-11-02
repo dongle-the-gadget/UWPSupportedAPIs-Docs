@@ -36,8 +36,8 @@ Get-Content $BuildsFilePath -ReadCount 1 | ForEach-Object {
     # Retrieve information in the following format from the line:
     # <build number> : <type (either "retail" or "insider")> : <download URL>
     $BuildInfo = $_.Split(" : ")
-    $BuildNumber = $BuildInfo[0]
-    $DownloadUrl = $BuildInfo[2]
+    $BuildNumber = $BuildInfo[0].Trim()
+    $DownloadUrl = $BuildInfo[2].Trim()
 
     # Check if the files <output folder>\<build number>\SupportedAPIs-[x64|x86|arm].xml files exist
     # If it does, skip the build
