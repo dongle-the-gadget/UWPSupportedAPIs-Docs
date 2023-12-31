@@ -1,6 +1,6 @@
 # UWPSupportedAPIs-Docs
 A list of Win32 APIs supported* by UWP.
-> **Note**
+> [!NOTE]
 > We define "supported" here as in, allowed for use by UWP apps submitted to the Microsoft Store.
 > Some other APIs not listed in this repository can work within UWP apps,
 > yet are not approved for use by the Microsoft Store.
