@@ -24,7 +24,7 @@ $BuildsFileLines = $BuildsFileLines | ForEach-Object {
         return
     }
 
-    $_.Split(" : ")[0]
+    $_.Split(" : ")[0].Trim()
 }
 
 # If the output file path doesn't exist, use an empty array instead.
@@ -37,7 +37,7 @@ if (Test-Path $OutputFilePath -PathType Leaf) {
 # The result should be alphanumerically sorted from the leftmost character.
 # Ignore length, case, and culture.
 
-$UnionLines = $BuildsFileLines + $OutputFileLines | select -uniq | Sort-Object -Property { [System.Version]::Parse($_.Trim() + ".0") }
+$UnionLines = $BuildsFileLines + $OutputFileLines | select -uniq | Sort-Object -Property { [System.Version]::Parse($_ + ".0") }
 
 # Replace the output file with the created union
 Set-Content $OutputFilePath -Value $UnionLines
