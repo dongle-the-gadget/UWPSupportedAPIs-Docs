@@ -29,12 +29,6 @@ jobs:
       
       - name: Consolidate the SDK versions
         run: .\scripts\Consolidate-Versions.ps1 generation/builds-${{ matrix.branch }}.txt output/versions-${{ matrix.branch }}.txt
-
-      - name: Check if files have changed
-        uses: tj-actions/verify-changed-files@v16
-        with:
-          files: |
-            output/*
       
       - name: Commit and push changes
         uses: EndBug/add-and-commit@v9
