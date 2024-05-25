@@ -37,6 +37,7 @@ Get-Content $BuildsFilePath -ReadCount 1 | ForEach-Object {
     # <build number> : <type (either "retail" or "insider")> : <download URL>
     $BuildInfo = $_.Split(" : ")
     $BuildNumber = $BuildInfo[0].Trim()
+    $BuildRing = $BuildInfo[1].Trim()
     $DownloadUrl = $BuildInfo[2].Trim()
 
     # Check if the files <output folder>\<build number>\SupportedAPIs-[x64|x86|arm].xml files exist
@@ -55,7 +56,12 @@ Get-Content $BuildsFilePath -ReadCount 1 | ForEach-Object {
     $TempFolder = New-Item -Force -Path $env:TEMP -Name "WindowsSDK-$BuildNumber" -ItemType Directory
 
     # Download the Windows 10 SDK installer
-    $InstallerPath = Join-Path -Path $TempFolder.FullName -ChildPath "winsdksetup.exe"
+    $InstallerFile = switch ($BuildRing)
+    {
+        "retail" { "winsdksetup.exe" }
+        "insider" { "winsdk.iso" }
+    }
+    $InstallerPath = Join-Path -Path $TempFolder.FullName -ChildPath $InstallerFile
     Write-Host "Downloading the $BuildNumber SDK installer."
     try
     {
@@ -68,20 +74,36 @@ Get-Content $BuildsFilePath -ReadCount 1 | ForEach-Object {
         throw $_
     }
 
-    # Run the installer using the following command line arguments:
-    # /features OptionId.WindowsSoftwareLogoToolkit
-    # /q /norestart
-    # /layout <path>\Windows Kits
-    # The script should wait until the program exits.
-
-    Write-Host "Executing the $BuildNumber SDK installer."
+    Write-Host "Extracting installers for the $BuildNumber SDK."
     $KitsPath = Join-Path -Path $TempFolder -ChildPath "Windows Kits"
-    $KitsProcess = Start-Process -FilePath $InstallerPath -ArgumentList "/features OptionId.WindowsSoftwareLogoToolkit /q /norestart /layout `"$KitsPath`"" -PassThru -Wait
 
-    # Check if the program has succeeded. If not, clean up the folder and throw an exception.
-    if ($KitsProcess.ExitCode -ne 0) {
-        Remove-Item -Path $TempFolder.FullName -Recurse -Force
-        throw "The $BuildNumber SDK installer has failed with exit code $($KitsProcess.ExitCode)."
+    if ($BuildRing -eq "retail")
+    {
+        # Run the installer using the following command line arguments:
+        # /features OptionId.WindowsSoftwareLogoToolkit
+        # /q /norestart
+        # /layout <path>\Windows Kits
+        # The script should wait until the program exits.
+
+        $KitsProcess = Start-Process -FilePath $InstallerPath -ArgumentList "/features OptionId.WindowsSoftwareLogoToolkit /q /norestart /layout `"$KitsPath`"" -PassThru -Wait
+
+        # Check if the program has succeeded. If not, clean up the folder and throw an exception.
+        if ($KitsProcess.ExitCode -ne 0) {
+            Remove-Item -Path $TempFolder.FullName -Recurse -Force
+            throw "The $BuildNumber SDK installer has failed with exit code $($KitsProcess.ExitCode)."
+        }
+    }
+    else
+    {
+        # Extract ISO file.
+        Write-Host "Extracting the $BuildNumber SDK ISO."
+        $KitsProcess = Start-Process -FilePath "7z.exe" -ArgumentList "x `"$InstallerPath`" -o`"$KitsPath`"" -PassThru -Wait
+
+        # Check if extraction succeeded.
+        if ($KitsProcess.ExitCode -ne 0) {
+            Remove-Item -Path $TempFolder.FullName -Recurse -Force
+            throw "Extraction for the $BuildNumber SDK ISO has failed with exit code $($KitsProcess.ExitCode)."
+        }
     }
 
     # Run msiexec with the following parameters
@@ -115,4 +137,3 @@ Get-Content $BuildsFilePath -ReadCount 1 | ForEach-Object {
     Remove-Item -Path $TempFolder.FullName -Recurse -Force
 
     Write-Host ""
-}

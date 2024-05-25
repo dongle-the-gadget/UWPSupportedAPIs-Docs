@@ -15,20 +15,21 @@ on:
 jobs:
   scrape-sdk:
     runs-on: windows-2022
-    strategy:
-      matrix:
-        branch:
-          - stable
-          - insider
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Scrape the SDKs
-        run: .\scripts\Download-SupportedAPIs.ps1 generation/builds-${{ matrix.branch }}.txt output
+      - name: Scrape the SDKs for stable
+        run: .\scripts\Download-SupportedAPIs.ps1 generation/builds-stable.txt output
       
-      - name: Consolidate the SDK versions
-        run: .\scripts\Consolidate-Versions.ps1 generation/builds-${{ matrix.branch }}.txt output/versions-${{ matrix.branch }}.txt
+      - name: Scrape the SDKs for insider
+        run: .\scripts\Download-SupportedAPIs.ps1 generation/builds-insider.txt output
+      
+      - name: Consolidate the SDK versions for stable
+        run: .\scripts\Consolidate-Versions.ps1 generation/builds-stable.txt output/versions-stable.txt
+      
+      - name: Consolidate the SDK versions for insider
+        run: .\scripts\Consolidate-Versions.ps1 generation/builds-insider.txt output/versions-insider.txt
       
       - name: Commit and push changes
         uses: EndBug/add-and-commit@v9
