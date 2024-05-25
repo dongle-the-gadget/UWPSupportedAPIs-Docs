@@ -43,10 +43,8 @@ Get-Content $BuildsFilePath -ReadCount 1 | ForEach-Object {
     # Check if the files <output folder>\<build number>\SupportedAPIs-[x64|x86|arm].xml files exist
     # If it does, skip the build
     $DestinationPath = Join-Path -Path $OutputFolder.FullName -ChildPath $BuildNumber
-    $SupportedAPIsx86 = Join-Path -Path $DestinationPath -ChildPath "SupportedAPIs-x86.xml"
-    $SupportedAPIsx64 = Join-Path -Path $DestinationPath -ChildPath "SupportedAPIs-x64.xml"
-    $SupportedAPIsarm = Join-Path -Path $DestinationPath -ChildPath "SupportedAPIs-arm.xml"
-    If ((Test-Path $SupportedAPIsx86 -PathType Leaf) -and (Test-Path $SupportedAPIsx64 -PathType Leaf) -and (Test-Path $SupportedAPIsarm -PathType Leaf)) {
+    $SupportedAPIsPath = Join-Path -Path $DestinationPath -ChildPath "SupportedAPIs-*.xml"
+    If (Test-Path $SupportedAPIsPath -PathType Leaf) {
         Write-Host "The $BuildNumber supported APIs files already exist. Skipping."
         Write-Host ""
         return
