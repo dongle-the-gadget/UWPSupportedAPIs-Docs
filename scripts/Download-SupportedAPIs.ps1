@@ -137,3 +137,4 @@ Get-Content $BuildsFilePath -ReadCount 1 | ForEach-Object {
     Remove-Item -Path $TempFolder.FullName -Recurse -Force
 
     Write-Host ""
+}
