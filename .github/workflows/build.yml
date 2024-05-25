@@ -17,7 +17,7 @@ jobs:
     runs-on: windows-2022
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Scrape the SDKs for stable
         run: .\scripts\Download-SupportedAPIs.ps1 generation/builds-stable.txt output
@@ -41,7 +41,7 @@ jobs:
           push: true
       
       - name: Upload artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: SupportedAPIs-${{ matrix.branch }}
           path: output/
