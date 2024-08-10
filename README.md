@@ -15,7 +15,7 @@ We hope that, with this project, we can shed light on how permissible AppContain
 <sup>*Oh, and also to stop [Ahmed Walid](https://twitter.com/AhmedWalid605) from complaining about how bad the official documentation is.* 😉😂</sup>
 
 ### Problems with existing approaches
-#### Microsoft Learn (formely Microsoft Docs)
+#### Microsoft Learn (formerly Microsoft Docs)
 As said, Microsoft Learn suffers from outdated or incorrect information when it comes to UWP compatibility.
 For instance, `GetModuleHandleW` is listed in Microsoft Learn as ["desktop apps only"](https://learn.microsoft.com/en-us/windows/win32/api/libloaderapi/nf-libloaderapi-getmodulehandlew#requirements),
 despite the fact that this API has been supported for UWP apps since the Windows SDK version 18362.
