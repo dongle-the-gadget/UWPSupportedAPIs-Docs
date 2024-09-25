@@ -399,3 +399,6 @@ FodyWeavers.xsd
 
 # The website directory (temporary)
 website/
+
+# Lucene index
+LuceneIndex/

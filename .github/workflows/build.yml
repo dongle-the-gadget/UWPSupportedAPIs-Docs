@@ -1,18 +1,12 @@
 name: Build
 
+env:
+  AZURE_WEBAPP_NAME: uwpsupportedapis
+
 on:
   push:
-    paths:
-      - "generation/builds-*.txt"
-      - "scripts/Download-SupportedAPIs.ps1"
-      - "scripts/Consolidate-Versions.ps1"
-      - ".github/workflows/build.yml"
-  pull_request:
-    paths:
-      - "generation/builds-*.txt"
-      - "scripts/Download-SupportedAPIs.ps1"
-      - "scripts/Consolidate-Versions.ps1"
-      - ".github/workflows/build.yml"
+    branches:
+      - main
 
 jobs:
   scrape-sdk:
@@ -47,3 +41,33 @@ jobs:
         with:
           name: SupportedAPIs
           path: output/
+
+      - name: Install .NET 8
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.x
+
+      - name: Restore dependencies for LuceneGen
+        run: dotnet restore tools/LuceneGen/LuceneGen.csproj
+      
+      - name: Build LuceneGen
+        run: dotnet build tools/LuceneGen/LuceneGen.csproj --configuration Release --no-restore
+
+      - name: Run LuceneGen
+        run: dotnet run --project tools/LuceneGen/LuceneGen.csproj -- --input output --output web/LuceneIndex
+    
+      - name: Restore dependencies for website
+        run: dotnet restore web/UWPSupportedAPIsWeb.csproj
+
+      - name: Build website
+        run: dotnet build web/UWPSupportedAPIsWeb.csproj --configuration Release --no-restore
+      
+      - name: Publish website
+        run: dotnet publish web/UWPSupportedAPIsWeb.csproj --configuration Release --output web-publish --no-build
+    
+      - name: Publish to Azure App Service
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: ${{ env.AZURE_WEBAPP_NAME }}
+          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE  }}
+          package: web-publish

@@ -1,0 +1,22 @@
+﻿.flex-stretch {
+    flex: 1;
+}
+
+.flex-gap-8 {
+    gap: 8px;
+}
+
+.flex-baseline {
+    flex-wrap: wrap;
+    align-items: baseline;
+}
+
+.base-content {
+    margin-left: 12px;
+    margin-top: 12px;
+    margin-right: 12px;
+}
+
+a {
+    color: var(--accent-foreground-rest);
+}

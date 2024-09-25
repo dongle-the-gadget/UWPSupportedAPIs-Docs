@@ -1,0 +1,18 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<link rel="stylesheet" href="~/css/search.css" />
+<link rel="stylesheet" href="~/css/home.css" />
+
+<div>
+    <header class="flex-hcenter-content">
+        <h1>UWPSupportedAPIs-Docs</h1>
+        <p>A list of Win32 APIs supported for use in UWP apps published in the Microsoft Store.</p>
+    </header>
+
+    <form asp-area="" asp-controller="Home" asp-action="Search" class="flex-horizontal flex-gap-8" method="get">
+        <fluent-text-field class="flex-stretch" placeholder="Enter an API name" name="q" required></fluent-text-field>
+        <fluent-button id="button" appearance="accent" type="submit">Submit</fluent-button>
+    </form>
+</div>
