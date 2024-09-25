@@ -15,7 +15,7 @@
         <fluent-button id="button" appearance="accent" type="submit">Submit</fluent-button>
     </form>
 
-    @if (viewModel != null)
+    @if (viewModel != null && viewModel.Max != 0)
     {
         <div class="flex-gap-8">
             <h2>Search Results</h2>
@@ -38,5 +38,9 @@
                 </fluent-card>
             }
         </div>
+    }
+    else
+    {
+        <p>No results found!</p>
     }
 </div>
