@@ -9,7 +9,7 @@ on:
       - main
 
 jobs:
-  scrape-sdk:
+  publish:
     runs-on: windows-2022
     steps:
       - name: Checkout code
@@ -54,7 +54,7 @@ jobs:
         run: dotnet build tools/LuceneGen/LuceneGen.csproj --configuration Release --no-restore
 
       - name: Run LuceneGen
-        run: dotnet run --project tools/LuceneGen/LuceneGen.csproj -- --input output --output web/LuceneIndex
+        run: dotnet run --project tools/LuceneGen/LuceneGen.csproj -- --folder output --output web/LuceneIndex
     
       - name: Restore dependencies for website
         run: dotnet restore web/UWPSupportedAPIsWeb.csproj
