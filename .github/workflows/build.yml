@@ -47,23 +47,20 @@ jobs:
         with:
           dotnet-version: 8.x
 
-      - name: Restore dependencies for LuceneGen
-        run: dotnet restore tools/LuceneGen/LuceneGen.csproj
+      - name: Restore dependencies
+        run: dotnet restore tools/UWPSupportedAPIs-Docs-Tools.sln
       
       - name: Build LuceneGen
         run: dotnet build tools/LuceneGen/LuceneGen.csproj --configuration Release --no-restore
 
       - name: Run LuceneGen
-        run: dotnet run --project tools/LuceneGen/LuceneGen.csproj -- --folder output --output web/LuceneIndex
-    
-      - name: Restore dependencies for website
-        run: dotnet restore web/UWPSupportedAPIsWeb.csproj
+        run: dotnet run --no-build --project tools/LuceneGen/LuceneGen.csproj -- --folder output --output tools/Website/LuceneIndex
 
       - name: Build website
-        run: dotnet build web/UWPSupportedAPIsWeb.csproj --configuration Release --no-restore
+        run: dotnet build tools/Website/UWPSupportedAPIsWeb.csproj --configuration Release --no-restore
       
       - name: Publish website
-        run: dotnet publish web/UWPSupportedAPIsWeb.csproj --configuration Release --output web-publish --no-build
+        run: dotnet publish tools/Website/UWPSupportedAPIsWeb.csproj --configuration Release --output web-publish --no-build
     
       - name: Publish to Azure App Service
         uses: azure/webapps-deploy@v2

@@ -1,10 +1,14 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using ConsoleAppFramework;
 using Lucene.Net.Analysis;
+using Lucene.Net.Analysis.Core;
+using Lucene.Net.Analysis.Pattern;
 using Lucene.Net.Analysis.Standard;
+using Lucene.Net.Analysis.TokenAttributes;
 using Lucene.Net.Documents;
 using Lucene.Net.Index;
 using Lucene.Net.Util;
+using LuceneCommons;
 using TurboXml;
 
 using LuceneDirectory = Lucene.Net.Store.Directory;
@@ -20,7 +24,7 @@ static void Run(string folder, string output)
     const LuceneVersion version = LuceneVersion.LUCENE_48;
 
     using LuceneDirectory indexDir = Lucene.Net.Store.FSDirectory.Open(output);
-    Analyzer analyzer = new StandardAnalyzer(version);
+    Analyzer analyzer = new WinAPIAnalyzer();
     IndexWriterConfig indexConfig = new IndexWriterConfig(version, analyzer);
     indexConfig.OpenMode = OpenMode.CREATE;
     IndexWriter writer = new IndexWriter(indexDir, indexConfig);
