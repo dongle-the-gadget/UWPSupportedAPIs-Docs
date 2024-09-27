@@ -1,0 +1,85 @@
+﻿:root {
+    background-color: var(--page-background);
+    color: var(--neutral-foreground-rest);
+    font-family: var(--body-font, "Segoe UI Variable", "Segoe UI", Arial, Helvetica, sans-serif);
+}
+
+:root {
+    --page-background: #202020;
+}
+
+body {
+    margin: 0px;
+    display: flex;
+    flex-direction: column;
+}
+
+html, body {
+    height: 100%;
+}
+
+@media (prefers-color-scheme: light) {
+    :root {
+        --page-background: #f3f3f3;
+    }
+}
+
+div, header {
+    display: flex;
+    flex-direction: column;
+}
+
+h1 {
+    font-size: var(--type-ramp-plus-6-font-size, 40px);
+    line-height: var(--type-ramp-plus-6-line-height, 52px);
+}
+
+h2 {
+    font-size: var(--type-ramp-plus-5-font-size, 32px);
+    line-height: var(--type-ramp-plus-5-line-height, 40px);
+}
+
+h3 {
+    font-size: var(--type-ramp-plus-4-font-size, 28px);
+    line-height: var(--type-ramp-plus-4-line-height, 36px);
+}
+
+h4 {
+    font-size: var(--type-ramp-plus-3-font-size, 24px);
+    line-height: var(--type-ramp-plus-3-line-height, 32px);
+}
+
+h5 {
+    font-size: var(--type-ramp-plus-2-font-size, 20px);
+    line-height: var(--type-ramp-plus-2-line-height, 26px);
+}
+
+h6 {
+    font-size: var(--type-ramp-plus-1-font-size, 16px);
+    line-height: var(--type-ramp-plus-1-line-height, 22px);
+}
+
+.base-content {
+    flex-direction: column;
+}
+
+.nav-link {
+    text-decoration: none;
+    background: none;
+    border: 0;
+    padding: 14px;
+    line-height: 22px;
+    color: var(--neutral-foreground-rest);
+}
+
+nav {
+    position: sticky;
+    top: 0;
+    background: var(--page-background);
+    z-index:1;
+}
+
+.flex-horizontal {
+    display: flex;
+    flex-direction: row;
+}

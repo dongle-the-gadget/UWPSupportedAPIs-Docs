@@ -1,0 +1,46 @@
+﻿@using UWPSupportedAPIsWeb.Models;
+
+@{
+    ViewData["Title"] = "Search";
+    SearchViewModel viewModel = (SearchViewModel)ViewData.Model;
+    int currentPage = viewModel.Skipped / 10 + 1;
+    int maxPages = (int)double.Ceiling(viewModel.Max / 10.0);
+}
+
+<link rel="stylesheet" href="~/css/search.css" />
+
+<div>
+    <form asp-area="" asp-controller="Home" asp-action="Search" class="flex-horizontal flex-gap-8" method="get">
+        <fluent-text-field class="flex-stretch" placeholder="Enter an API name" name="q" required value="@viewModel.Query"></fluent-text-field>
+        <fluent-button id="button" appearance="accent" type="submit">Submit</fluent-button>
+    </form>
+
+    @if (viewModel != null && viewModel.Max != 0)
+    {
+        <div class="flex-gap-8">
+            <h2>Search Results</h2>
+            <p style="margin:0">Showing page @currentPage out of @maxPages</p>
+            <div class="flex-horizontal flex-gap-8">
+                @if (currentPage != 1)
+                {
+                    <a asp-action="Search" asp-route-q="@viewModel.Query" asp-route-skip="@((currentPage - 2) * 10)">Previous</a>                    
+                }
+                @if (currentPage != maxPages)
+                {
+                    <a asp-route-q="@viewModel.Query" asp-route-skip="@(currentPage * 10)">Next</a>
+                }
+            </div>
+            @foreach (var api in viewModel.Methods)
+            {
+                <fluent-card style="padding: 16px;">
+                    <h4 style="margin:0 0 12px 0">@api.Name</h4>
+                    <small>Minimum target SDK version: @api.MinVersion</small>
+                </fluent-card>
+            }
+        </div>
+    }
+    else
+    {
+        <p>No results found!</p>
+    }
+</div>

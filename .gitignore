@@ -397,8 +397,5 @@ FodyWeavers.xsd
 # JetBrains Rider
 *.sln.iml
 
-# The website directory (temporary)
-website/
-
 # Lucene index
 LuceneIndex/
