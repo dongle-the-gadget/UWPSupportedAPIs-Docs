@@ -54,7 +54,7 @@ jobs:
         run: dotnet build tools/LuceneGen/LuceneGen.csproj --configuration Release --no-restore
 
       - name: Run LuceneGen
-        run: dotnet run --no-build --project tools/LuceneGen/LuceneGen.csproj -- --folder output --output tools/Website/LuceneIndex
+        run: dotnet run --configuration Release --no-build --project tools/LuceneGen/LuceneGen.csproj -- --folder output --output tools/Website/LuceneIndex
 
       - name: Build website
         run: dotnet build tools/Website/UWPSupportedAPIsWeb.csproj --configuration Release --no-restore
