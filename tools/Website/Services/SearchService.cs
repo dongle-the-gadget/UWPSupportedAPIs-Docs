@@ -1,7 +1,5 @@
 ﻿using Lucene.Net.Analysis;
 using Lucene.Net.Index;
-using Lucene.Net.QueryParsers.Classic;
-using Lucene.Net.QueryParsers.Flexible.Standard.Builders;
 using Lucene.Net.Search;
 using Lucene.Net.Search.Grouping;
 using Lucene.Net.Store;
@@ -18,8 +16,6 @@ public class SearchService : IDisposable
     private IndexSearcher searcher;
     private Analyzer analyzer;
     private static readonly Sort docSort = new Sort(new SortField("build", SortFieldType.STRING));
-
-    private const LuceneVersion version = LuceneVersion.LUCENE_48;
 
     public SearchService()
     {
