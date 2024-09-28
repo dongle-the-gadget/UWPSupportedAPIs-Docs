@@ -17,14 +17,17 @@ public partial class WinAPIAnalyzer : Analyzer
     }
 }
 
-sealed partial class WinAPITokenizer : Tokenizer
+sealed partial class WinAPITokenizerRegex
 {
     [GeneratedRegex("(?:[A-Z0-9])+(?![a-z])|(?>[A-Z][a-z0-9]+)|[a-z0-9]+")]
-    private static partial Regex WinAPIRegex();
+    public static partial Regex WinAPIRegex();
+}
 
+sealed partial class WinAPITokenizer : Tokenizer
+{
     private readonly ICharTermAttribute termAtt;
     private readonly IOffsetAttribute offsetAtt;
-    private static readonly Regex pattern = WinAPIRegex();
+    private static readonly Regex pattern = WinAPITokenizerRegex.WinAPIRegex();
     private readonly StringBuilder str = new StringBuilder();
     private int index;
     private MatchCollection? matches;
