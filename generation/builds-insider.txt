@@ -9,3 +9,5 @@
 
 # For retail builds, the download information must be
 # the URL of the EXE installer, not the ISO image.
+
+27913 : insider : https://software.download.prss.microsoft.com/dbazure/Windows_InsiderPreview_SDK_en-us_27913.iso
